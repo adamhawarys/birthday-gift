@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untukmu, Sayang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Dancing+Script:wght@500;700&family=Quicksand:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ CUSTOMIZE DI SINI ============
+  1. Ganti PIN rahasia di script.js -> variabel correctPin (default 6 digit)
+  2. Ganti teks petunjuk di .pin-hint kalau mau kasih clue PIN-nya
+  3. Ganti candleCount di script.js -> jumlah lilin (misal umur dia)
+  4. Taruh file musik di audio/backsound.mp3 (atau ganti src audio tag di bawah)
+  5. Ganti isi surat di #letterText
+  6. Taruh 12 img kalian di img/1.jpg s.d. img/12.jpg
+     (membentuk hati mengelilingi amplop; kalau file belum ada,
+     otomatis tampil kotak placeholder dulu)
+  7. Halaman Kenangan: taruh foto utama di img/awal-jatuh-cinta.jpg
+     (foto yang bikin kamu pertama jatuh cinta, muncul duluan & bisa ditap),
+     lalu foto photo-dump SEKARANG OTOMATIS: cukup taruh file di
+     img/kenangan1.jpg, img/kenangan2.jpg, dst (boleh .jpg/.jpeg/.png/.webp)
+     - nggak perlu edit HTML lagi. Yang belum ada filenya otomatis dilewati,
+     yang ada otomatis muncul bentuk polaroid & bisa di-scroll. Atur jumlah
+     maksimal & pola nama file di script.js -> DUMP_PHOTO_CONFIG
+============================================= -->
+
+<section id="pinScreen">
+  <div class="pin-card">
+    <div class="pin-eyebrow">Kado Untukmu</div>
+    <h1>Masukkan PIN</h1>
+    <p class="pin-hint">kamu pasti tau angkanya 😉</p>
+
+    <div class="pin-dots" id="pinDots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="pin-error" id="pinError">PIN salah, coba lagi</div>
+
+    <div class="keypad" id="keypad">
+      <button class="key" data-num="1">1</button>
+      <button class="key" data-num="2">2</button>
+      <button class="key" data-num="3">3</button>
+      <button class="key" data-num="4">4</button>
+      <button class="key" data-num="5">5</button>
+      <button class="key" data-num="6">6</button>
+      <button class="key" data-num="7">7</button>
+      <button class="key" data-num="8">8</button>
+      <button class="key" data-num="9">9</button>
+      <button class="key key-ghost" id="clearBtn">Hapus</button>
+      <button class="key" data-num="0">0</button>
+      <button class="key key-ghost" id="backBtn">&#9003;</button>
+    </div>
+  </div>
+</section>
+
+<div id="mainSite">
+  <section class="cake-page" id="cakePage">
+    <div class="cake-eyebrow">Hari yang Spesial</div>
+    <h2 id="cakeTitle">Happy Birthday, Sayang 🎂</h2>
+    <p class="cake-hint">Tap setiap lilin buat niup</p>
+
+    <div class="cake-wrap">
+      <div class="cake-stage">
+        <div class="candles" id="candles"></div>
+        <div class="cake">
+          <div class="cake-tier cake-tier-top">
+            <div class="tier-frosting"></div>
+          </div>
+          <div class="cake-tier cake-tier-mid">
+            <div class="tier-pearls"></div>
+          </div>
+          <div class="cake-ribbon"></div>
+          <div class="cake-tier cake-tier-bottom">
+            <div class="tier-sprinkles"></div>
+          </div>
+          <div class="cake-plate"></div>
+          <div class="cake-shadow"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cake-message" id="cakeMessage">
+      <p class="cake-message-script">Yeeeeeeey ✨</p>
+      <p class="cake-message-sub">Semoga semua harapanmu terkabul 🤍</p>
+      <button class="next-btn" id="toEnvelopeBtn">Ada sesuatu nih buat kamu &rarr;</button>
+    </div>
+
+    <button class="sound-toggle" id="soundToggle" aria-label="Mute/unmute musik">🔊</button>
+    <audio id="bgm" src="audio/about-you.mp3" loop preload="auto"></audio>
+  </section>
+
+  <section class="envelope-page" id="envelopePage">
+    <div class="env-eyebrow">Sepucuk Surat</div>
+    <h2>Untuk My Beautiful Girl</h2>
+    <p class="env-hint" id="envHint">Buka amplopnya Sayang!</p>
+
+    <div class="heart-frame" id="heartFrame">
+      <div class="heart-photo hp-1"><div class="hp-float"><img src="img/1.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-2"><div class="hp-float"><img src="img/2.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-3"><div class="hp-float"><img src="img/3.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-4"><div class="hp-float"><img src="img/4.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-5"><div class="hp-float"><img src="img/5.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-6"><div class="hp-float"><img src="img/6.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-7"><div class="hp-float"><img src="img/7.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-8"><div class="hp-float"><img src="img/8.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-9"><div class="hp-float"><img src="img/9.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-10"><div class="hp-float"><img src="img/10.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-11"><div class="hp-float"><img src="img/11.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+      <div class="heart-photo hp-12"><div class="hp-float"><img src="img/12.jpg" alt="Kita" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="hp-fallback">📷</div></div></div>
+
+      <div class="envelope-wrap">
+        <div class="envelope" id="envelope">
+          <div class="letter" id="letterInside">
+            <div class="letter-lines"></div>
+          </div>
+          <div class="env-back"></div>
+          <div class="env-flap"></div>
+          <div class="env-front-left"></div>
+          <div class="env-front-right"></div>
+          <div class="env-seal">💌</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="env-next-wrap">
+      <button class="next-btn env-next-btn" id="toNextPageBtn">Lanjut &rarr;</button>
+    </div>
+
+    <div class="letter-modal" id="letterModal">
+      <div class="letter-stage">
+        <div class="letter-paper-wrap">
+          <div class="letter-paper">
+            <button class="letter-close" id="letterClose">&times;</button>
+
+            <div class="letter-text" id="letterText">
+                <p>Dear Fadila Fajri,</p>
+
+                <p>
+                  Selamat ulang tahun, sayang ❤️
+                </p>
+
+                <p>
+                  Semoga di umur yang baru ini, semua hal baik datang ke kamu satu per satu.
+                  Semoga kamu selalu diberikan kesehatan, kebahagiaan, dimudahkan dalam setiap
+                  urusan, dan bisa mencapai semua hal yang kamu impikan.
+                </p>
+
+                <p>
+                  Terima kasih sudah setia nungguin aku selama 4 tahun sampai akhirnya kita
+                  bisa balik bareng lagi. Yaa, walaupun nungguinnya sambil sama orang lain,
+                  hehehe. ❤️
+                </p>
+
+                <p>
+                  Aku juga mau minta maaf untuk 4 tahun yang lalu, ninggalin kamu
+                  di saat sebenarnya kamu lagi butuh seseorang buat nemenin kamu. Sampai
+                  sekarang aku masih ngerasa bersalah kalau nginget itu.
+                  <em>I’m really sorry for that.</em>
+                </p>
+
+                <p>
+                  Terima kasih karena sampai sekarang kamu masih mau memberikan aku
+                  kesempatan untuk kembali ada di hidup kamu. Kamu selalu punya tempat
+                  spesial di hati aku.
+                </p>
+
+                <p>
+                  Aku mungkin nggak selalu bisa jadi pasangan yang sempurna, tapi aku akan
+                  selalu berusaha buat nemenin kamu, dukung kamu, dan bikin kamu merasa
+                  dicintai.
+                </p>
+
+                <p>
+                  Semoga kali ini kita bisa terus bareng, saling support, melewati banyak
+                  hal, dan bikin lebih banyak cerita indah bersama.
+                </p>
+
+                <p>
+                  Sekali lagi, selamat ulang tahun, sayang. ❤️
+                  <br>
+                  Semoga selalu ada alasan buat kamu tersenyum, hari ini dan seterusnya.
+                </p>
+
+                <p class="new-beginning">
+                  Let's start a brand new day.
+                </p>
+
+                <p>
+                  Aku sayang kamu. ❤️
+                </p>
+
+                <p class="letter-signature">Your beloved boy</p>
+            </div>
+            <div class="dog-ear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="memory-page" id="memoryPage">
+    <div class="mem-intro" id="memIntro">
+      <div class="mem-eyebrow">Awal Mula</div>
+      <h2>Jatuh Cinta Pandangan Pertamaku</h2>
+
+      <div class="mem-featured-photo" id="memFeaturedPhoto">
+        <img src="img/first-time.jpg" alt="img pertama jatuh cinta"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="mem-fallback"><span>📷</span><span class="mem-fallback-text">taruh img di img/first-time.jpg</span></div>
+      </div>
+      <p class="mem-featured-caption">Momen ini, waktu aku sadar aku suka kamu.</p>
+      <p class="mem-tap-hint">tap fotonya buat liat lebih banyak kenangan 👉</p>
+    </div>
+
+    <div class="mem-dump" id="memDump">
+      <div class="mem-decor" aria-hidden="true">
+        <span class="decor-item dc-1">💗</span>
+        <span class="decor-item dc-2">✨</span>
+        <span class="decor-item dc-3">🌸</span>
+        <span class="decor-item dc-4">🌷</span>
+        <span class="decor-item dc-5">🤍</span>
+        <span class="decor-item dc-6">✨</span>
+        <span class="decor-item dc-7">🌸</span>
+        <span class="decor-item dc-8">💌</span>
+      </div>
+
+      <div class="mem-eyebrow">Semua Kenangan</div>
+      <h2>Photo Dump 🤍</h2>
+
+      <div class="mem-dump-scroll">
+        <div class="mem-dump-grid" id="memDumpGrid">
+
+
+          <div class="dump-item">
+            <img src="img/kenangan1.jpg" alt="Kenangan 1">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan2.jpg" alt="Kenangan 2">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan3.jpg" alt="Kenangan 3">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan4.jpg" alt="Kenangan 4">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan5.jpg" alt="Kenangan 5">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan6.jpg" alt="Kenangan 6">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan7.jpg" alt="Kenangan 7">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan8.jpg" alt="Kenangan 8">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan9.jpg" alt="Kenangan 9">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan10.jpg" alt="Kenangan 10">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan11.jpeg" alt="Kenangan 11">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan12.jpg" alt="Kenangan 12">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan13.jpg" alt="Kenangan 13">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan14.jpg" alt="Kenangan 14">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan15.jpg" alt="Kenangan 15">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan16.jpg" alt="Kenangan 16">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan17.jpeg" alt="Kenangan 17">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan18.jpeg" alt="Kenangan 18">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan19.jpg" alt="Kenangan 19">
+          </div>
+
+          <div class="dump-item">
+            <img src="img/kenangan20.jpg" alt="Kenangan 20">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan21.jpg" alt="Kenangan 21">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan22.jpg" alt="Kenangan 22">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan23.jpg" alt="Kenangan 23">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan24.jpg" alt="Kenangan 24">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan25.jpg" alt="Kenangan 25">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan26.jpg" alt="Kenangan 26">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan27.jpg" alt="Kenangan 27">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan28.JPG" alt="Kenangan 28">
+          </div>
+          <div class="dump-item">
+            <img src="img/kenangan29.JPG" alt="Kenangan 29">
+          </div>
+          
+
+          
+
+        </div>
+      </div>
+
+      <div class="mem-closing">
+        <p class="mem-closing-script">Terima kasih sudah jadi kamu.</p>
+        <p class="mem-closing-sub">Selamat ulang tahun, sayang 🤍</p>
+        <button class="next-btn mem-final-btn" id="toFinalBtn">Masih ada satu kado lagi 💝</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-page" id="finalPage">
+    <div class="final-reveal-bg" id="finalRevealBg"></div>
+    <div class="final-filmstrip" id="finalFilmstrip" aria-hidden="true">
+      <div class="filmstrip-row"></div>
+      <div class="filmstrip-row"></div>
+      <div class="filmstrip-row"></div>
+      <div class="filmstrip-row"></div>
+      <div class="filmstrip-row"></div>
+      <div class="filmstrip-row"></div>
+      <div class="filmstrip-row"></div>
+    </div>
+    <div class="gift-box" id="giftBox">
+      <div class="gift-box-icon">🎁</div>
+      <p class="gift-box-hint">Tap kadonya, sayang</p>
+    </div>
+    <canvas class="final-canvas" id="finalCanvas" aria-hidden="true"></canvas>
+    <div class="final-text" id="finalText">
+      <p class="final-caption">Selalu, sampai kapan pun. 🤍</p>
+    </div>
+  </section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
