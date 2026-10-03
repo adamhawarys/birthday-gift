@@ -464,9 +464,9 @@ const ALL_PHOTOS = [
   'img/kenangan22.jpg',
   'img/kenangan23.jpg',
   'img/kenangan24.jpg',
-  'img/kenangan25.jpg',
-  'img/kenangan26.jpg',
-  'img/kenangan27.jpg',
+  'img/kenangan25.JPG',
+  'img/kenangan26.JPG',
+  'img/kenangan27.JPG',
   'img/kenangan28.JPG',
   'img/kenangan29.JPG',
 ];
