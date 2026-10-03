@@ -3896,3 +3896,148 @@ body,
         transition-duration: .01ms !important;
     }
 }
+
+
+/* =========================================================
+   TOMBOL "ULANGI LAGI" (muncul setelah animasi selesai)
+   ========================================================= */
+
+.replay-btn {
+
+    margin-top: 18px;
+
+    animation: none;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+.replay-btn.show {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   PERAPIAN KUE
+   (blok ini menimpa beberapa style kue di atas.
+   Kalau mau kembali ke tampilan lama, hapus saja blok ini)
+   ========================================================= */
+
+/* Lilin berdiri tepat di atas kue, tidak melayang */
+.cake-stage {
+    padding-top: 72px;
+}
+
+/* Lilin bergaris spiral */
+.candle .stick {
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #FFFBF3 0 4px,
+            #EBCB8F 4px 8px
+        );
+    border: 1px solid rgba(110,20,35,.12);
+}
+
+/* Tingkat atas: lebih kontras dengan background */
+.cake-tier-top {
+    background:
+        linear-gradient(
+            180deg,
+            #FFFBF3 0%,
+            #F2DCC2 100%
+        );
+    border: 1px solid rgba(110,20,35,.10);
+    border-bottom: none;
+    box-shadow:
+        0 -2px 8px rgba(74,14,24,.08),
+        inset 0 -8px 12px rgba(110,20,35,.08);
+}
+
+/* Lelehan krim maroon di atas tingkat atas */
+.tier-frosting {
+    top: 0;
+    bottom: auto;
+    height: 13px;
+    border-radius: 13px 13px 0 0;
+    background:
+        radial-gradient(
+            circle at 50% 0,
+            var(--maroon-soft) 5px,
+            transparent 5.5px
+        ) 0 4px / 12px 9px round no-repeat,
+        linear-gradient(
+            var(--maroon-soft),
+            var(--maroon-soft)
+        ) 0 0 / 100% 5px no-repeat;
+    opacity: 1;
+}
+
+/* Tingkat tengah menempel ke tingkat atas */
+.cake-tier-mid {
+    margin-top: 0;
+}
+
+/* Mutiara di tepi tingkat tengah: ukuran pas, tidak terpotong */
+.tier-pearls {
+    top: -5px;
+    height: 10px;
+    background-image:
+        radial-gradient(
+            circle,
+            var(--cream) 3.5px,
+            transparent 4px
+        );
+    background-size: 12px 10px;
+    background-position: 0 0;
+    background-repeat: round no-repeat;
+}
+
+/* Pita emas polos selebar tingkat tengah */
+.cake-ribbon {
+    width: 220px;
+    height: 7px;
+    background:
+        linear-gradient(
+            180deg,
+            #E6C88E 0%,
+            var(--gold) 55%,
+            #A87F3C 100%
+        );
+    opacity: 1;
+    border-radius: 2px;
+}
+
+/* Tingkat bawah menempel ke pita, sudut atas sedikit membulat */
+.cake-tier-bottom {
+    margin-top: 0;
+    border-radius: 10px 10px 14px 14px;
+}
+
+/* Taburan lebih halus */
+.tier-sprinkles {
+    opacity: .4;
+}
+
+/* Lebar pita mengikuti ukuran kue di HP */
+@media (max-width: 600px) {
+    .cake-ribbon {
+        width: 180px;
+    }
+}
+
+@media (max-width: 380px) {
+    .cake-ribbon {
+        width: 160px;
+    }
+}

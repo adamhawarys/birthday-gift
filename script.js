@@ -444,8 +444,14 @@ const ALL_PHOTOS = [
   'img/first-time.jpg',
 
   'img/kenangan1.jpg',
+  'img/kenangan1.1.jpg',
+  'img/kenangan1.2.jpg',
+  'img/kenangan1.3.jpg',
+  'img/kenangan1.4.jpg',
   'img/kenangan2.jpg',
   'img/kenangan3.jpg',
+  'img/kenangan3.1.jpg',
+  'img/kenangan3.2.jpg',
   'img/kenangan4.jpg',
   'img/kenangan6.jpg',
   'img/kenangan7.jpg',
@@ -1076,6 +1082,11 @@ function loveAnimationStep(){
 
       finalText.classList.add('show');
 
+      // Tombol "Ulangi lagi" muncul 2,5 detik kemudian
+      setTimeout(() => {
+        replayBtn.classList.add('show');
+      }, 2500);
+
     }
 
   }
@@ -1148,5 +1159,43 @@ toFinalBtn.addEventListener('click', () => {
   memoryPage.classList.add('exit');
 
   finalPage.classList.add('active');
+
+});
+
+
+// ---------- Tombol "Ulangi lagi" -> kembali ke halaman amplop ----------
+const replayBtn = document.getElementById('replayBtn');
+
+replayBtn.addEventListener('click', () => {
+
+  // 1. Hentikan animasi dan kembalikan halaman kado ke awal
+  if(loveAnimId){
+    cancelAnimationFrame(loveAnimId);
+    loveAnimId = null;
+  }
+
+  finalTriggered = false;
+
+  fctx.clearRect(0, 0, finalCanvas._cssW || 0, finalCanvas._cssH || 0);
+
+  giftBox.classList.remove('opened');
+  finalText.classList.remove('show');
+  replayBtn.classList.remove('show');
+  finalPage.classList.remove('reveal', 'active');
+
+  // 2. Kembalikan halaman kenangan ke foto pertama
+  memoryDumpOpened = false;
+  memoryClosingShown = false;
+
+  memClosing.classList.remove('show');
+  memDump.classList.remove('show');
+  memDump.style.display = '';
+  memIntro.classList.remove('hide');
+  memDumpScroll.scrollTop = 0;
+
+  memoryPage.classList.remove('active', 'exit');
+
+  // 3. Tampilkan lagi halaman amplop
+  envelopePage.classList.remove('exit');
 
 });
