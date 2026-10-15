@@ -1,5 +1,5 @@
 // ---------- Konfigurasi PIN ----------
-const correctPin = "000000"; // Ganti dengan PIN rahasia kalian, 6 digit
+const correctPin = "171003"; // Ganti dengan PIN rahasia kalian, 6 digit
 const pinLength = correctPin.length;
 
 let enteredPin = "";
