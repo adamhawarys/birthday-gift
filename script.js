@@ -587,7 +587,7 @@ const LOVE_COLORS = [
   '#ff5f3c'
 ];
 
-const CENTER_TEXT = 'I Love You 3000';
+const CENTER_TEXT = 'I Love You in Every Universe';
 
 
 // ---------- Kurva hati ----------
